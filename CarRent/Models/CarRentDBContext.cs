@@ -21,7 +21,6 @@ namespace CarRent.Models
         public virtual DbSet<Booking> Bookings { get; set; }
         public virtual DbSet<Car> Cars { get; set; }
         public virtual DbSet<CarClient> CarClients { get; set; }
-        public virtual DbSet<CarInfoView> CarInfoViews { get; set; }
         public virtual DbSet<CarInsurance> CarInsurances { get; set; }
         public virtual DbSet<CarService> CarServices { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
@@ -30,7 +29,6 @@ namespace CarRent.Models
         public virtual DbSet<Owner> Owners { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<RoadAccident> RoadAccidents { get; set; }
-        public virtual DbSet<UserInfoView> UserInfoViews { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -191,53 +189,6 @@ namespace CarRent.Models
                     .HasConstraintName("FK_car_client_client");
             });
 
-            modelBuilder.Entity<CarInfoView>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("CarInfoView");
-
-                entity.Property(e => e.AddressName)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("addressName")
-                    .IsFixedLength();
-
-                entity.Property(e => e.AddressNumber).HasColumnName("addressNumber");
-
-                entity.Property(e => e.Brand)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("brand")
-                    .IsFixedLength();
-
-                entity.Property(e => e.City)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("city")
-                    .IsFixedLength();
-
-                entity.Property(e => e.Deposit).HasColumnName("deposit");
-
-                entity.Property(e => e.DistanceLimit).HasColumnName("distanceLimit");
-
-                entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("firstName")
-                    .IsFixedLength();
-
-                entity.Property(e => e.IsOccupied).HasColumnName("isOccupied");
-
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("lastName")
-                    .IsFixedLength();
-
-                entity.Property(e => e.PricePerDay).HasColumnName("pricePerDay");
-            });
-
             modelBuilder.Entity<CarInsurance>(entity =>
             {
                 entity.ToTable("carInsurance");
@@ -366,12 +317,9 @@ namespace CarRent.Models
 
             modelBuilder.Entity<ClientService>(entity =>
             {
-                entity.HasKey(e => e.ServiceId)
-                    .HasName("PK_service");
-
                 entity.ToTable("clientService");
 
-                entity.Property(e => e.ServiceId).HasColumnName("serviceId");
+                entity.Property(e => e.ClientServiceId).HasColumnName("clientServiceId");
 
                 entity.Property(e => e.HasChildSeat).HasColumnName("hasChildSeat");
 
@@ -490,55 +438,6 @@ namespace CarRent.Models
                     .HasForeignKey(d => d.ClientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_roadAccident_client");
-            });
-
-            modelBuilder.Entity<UserInfoView>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("UserInfoView");
-
-                entity.Property(e => e.CarBrand)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("car brand")
-                    .IsFixedLength();
-
-                entity.Property(e => e.City)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("city")
-                    .IsFixedLength();
-
-                entity.Property(e => e.Deposit).HasColumnName("deposit");
-
-                entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("first name")
-                    .IsFixedLength();
-
-                entity.Property(e => e.HadAccidents)
-                    .IsRequired()
-                    .HasMaxLength(3)
-                    .IsUnicode(false)
-                    .HasColumnName("had accidents");
-
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("last name")
-                    .IsFixedLength();
-
-                entity.Property(e => e.PaymentAmount).HasColumnName("payment amount");
-
-                entity.Property(e => e.PhoneNumber)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("phone number")
-                    .IsFixedLength();
-
-                entity.Property(e => e.PricePerDay).HasColumnName("price per day");
             });
 
             OnModelCreatingPartial(modelBuilder);

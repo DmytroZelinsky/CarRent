@@ -11,7 +11,7 @@ namespace CarRent.Models
             Invoices = new HashSet<Invoice>();
         }
 
-        public int ServiceId { get; set; }
+        public int ClientServiceId { get; set; }
         public bool HasChildSeat { get; set; }
         public bool HasWiFi { get; set; }
         public bool HasDriver { get; set; }
