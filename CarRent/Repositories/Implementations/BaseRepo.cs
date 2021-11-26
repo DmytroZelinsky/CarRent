@@ -45,7 +45,6 @@ namespace CarRent.Repositories.Implementations
         public async Task<T> GetFirstAsync(Expression<Func<T, bool>> predicate)
         {
             return await DBContext.Set<T>().FirstAsync(predicate);
-            
         }
     }
 }

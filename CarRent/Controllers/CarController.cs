@@ -18,6 +18,7 @@ namespace CarRent.Controllers
     {
         private readonly ICarService _carService;
         private readonly IMapper _mapper;
+
         public CarController(ICarService carService, IMapper mapper)
         {
             _carService = carService;
@@ -50,7 +51,7 @@ namespace CarRent.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateCar(int id, CarDTO updatedCar)
+        public async Task<ActionResult<CarView>> UpdateCar(int id, CarDTO updatedCar)
         {
             var car = _mapper.Map<Car>(updatedCar);
             await _carService.UpdateCarAsync(id, car);
@@ -64,6 +65,5 @@ namespace CarRent.Controllers
             await _carService.DeleteCarAsync(id);
             return Ok();
         }
-
     }
 }

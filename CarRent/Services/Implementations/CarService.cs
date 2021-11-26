@@ -34,14 +34,14 @@ namespace CarRent.Services.Implementations
             await _carRepo.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<Car>> GetAllCarsAsync()
+        public async Task<IEnumerable<Car>> GetAllCarsAsync()
         {
-            return _carRepo.GetAllAsync();
+            return await _carRepo.GetAllAsync();
         }
 
-        public Task<Car> GetCarByIdAsync(int id)
+        public async Task<Car> GetCarByIdAsync(int id)
         {
-            return _carRepo.GetFirstAsync(x => x.CarId == id);
+            return await _carRepo.GetFirstAsync(x => x.CarId == id);
         }
     }
 }
