@@ -1,7 +1,7 @@
 ﻿using CarRent.Models;
 using CarRent.Repositories.Interfaces;
 
-namespace CarRent.Repositories.Realizations
+namespace CarRent.Repositories.Implementations
 {
     public class CarRepo : BaseRepo<Car>, ICarRepo
     {
