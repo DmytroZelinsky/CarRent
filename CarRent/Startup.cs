@@ -34,7 +34,9 @@ namespace CarRent
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ICarRepo, CarRepo>();
+            services.AddScoped<IAutoParkRepo, AutoParkRepo>();
             services.AddScoped<ICarService, Services.Implementations.CarService>();
+            services.AddScoped<IAutoParkService, AutoParkService>();
             services.AddDbContext<CarRentDBContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("CarRentConnection")));
             services.AddControllers();
             services.AddSwaggerGen(c =>
