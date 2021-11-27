@@ -1,6 +1,7 @@
 ﻿using CarRent.Models;
 using CarRent.Repositories.Interfaces;
 using CarRent.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -36,12 +37,16 @@ namespace CarRent.Services.Implementations
 
         public async Task<IEnumerable<Car>> GetAllCarsAsync()
         {
-            return await _carRepo.GetAllAsync();
+            return await _carRepo.GetAllAsync(include: source => source
+            .Include(x => x.AutoPark)
+                .ThenInclude(x => x.Address)
+            .Include(x => x.CarService));
         }
 
         public async Task<Car> GetCarByIdAsync(int id)
         {
-            return await _carRepo.GetFirstAsync(x => x.CarId == id);
+            var car = await _carRepo.GetFirstAsync(x => x.CarId == id);
+            return car;
         }
     }
 }

@@ -9,8 +9,7 @@
         public string FuelType { get; set; }
         public string DriveType { get; set; }
         public string Brand { get; set; }
-        public int? AutoParkId { get; set; }
-        public int? CarServiceId { get; set; }
+        public virtual CarServiceView CarService { get; set; }
         public string Vin { get; set; }
     }
 }

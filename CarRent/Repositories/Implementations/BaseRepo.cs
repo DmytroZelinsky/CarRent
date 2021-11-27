@@ -1,6 +1,7 @@
 ﻿using CarRent.Models;
 using CarRent.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,14 +38,28 @@ namespace CarRent.Repositories.Implementations
             DBContext.Set<T>().Update(entity);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
         {
-            return await DBContext.Set<T>().ToListAsync();
+            return await GetQuery(predicate, include).ToListAsync();
         }
 
-        public async Task<T> GetFirstAsync(Expression<Func<T, bool>> predicate)
+        public async Task<T> GetFirstAsync(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
         {
-            return await DBContext.Set<T>().FirstAsync(predicate);
+            return await GetQuery(predicate, include).FirstAsync();
+        }
+
+        private IQueryable<T> GetQuery(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+        {
+            var query = DBContext.Set<T>().AsQueryable();
+            if (include != null)
+            {
+                query = include(query);
+            }
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+            return query;
         }
     }
 }
