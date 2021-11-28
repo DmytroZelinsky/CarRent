@@ -55,6 +55,11 @@ namespace CarRent
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarRent v1"));
             }
 
+            app.UseCors(options => options
+               .WithOrigins("http://localhost:3000")
+               .AllowAnyMethod()
+               .AllowAnyHeader());
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
