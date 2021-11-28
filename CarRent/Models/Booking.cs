@@ -18,6 +18,10 @@ namespace CarRent.Models
         public int ReturnAddressId { get; set; }
         public int? ActualReturnAddressId { get; set; }
 
+        public Address ReceivingAddress { get; set; }
+        public Address ReturnAddress { get; set; }
+        public Address ActualReturnAddress { get; set; }
+
         public virtual ICollection<Client> Clients { get; set; }
     }
 }
