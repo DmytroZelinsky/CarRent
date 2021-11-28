@@ -1,4 +1,6 @@
-﻿namespace CarRent.ViewModels
+﻿using CarRent.Enums;
+
+namespace CarRent.ViewModels
 {
     public class CarView
     {
@@ -11,5 +13,7 @@
         public string Brand { get; set; }
         public virtual CarServiceView CarService { get; set; }
         public string Vin { get; set; }
+        public string Model { get; set; }
+        public Class Class { get; set; }
     }
 }

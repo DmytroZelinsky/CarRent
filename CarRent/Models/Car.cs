@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarRent.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace CarRent.Models
@@ -21,6 +22,8 @@ namespace CarRent.Models
         public int? AutoParkId { get; set; }
         public int? CarServiceId { get; set; }
         public string Vin { get; set; }
+        public string Model { get; set; }
+        public Class Class { get; set; }
 
         public virtual AutoPark AutoPark { get; set; }
         public virtual CarService CarService { get; set; }
