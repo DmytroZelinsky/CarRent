@@ -4,6 +4,7 @@ using CarRent.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRent.Migrations
 {
     [DbContext(typeof(CarRentDBContext))]
-    partial class CarRentDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211128192953_RemoveClientBookingBind")]
+    partial class RemoveClientBookingBind
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,12 +107,6 @@ namespace CarRent.Migrations
                         .HasColumnType("int")
                         .HasColumnName("actualReturnAddressId");
 
-                    b.Property<int?>("CarId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("endDate");
@@ -130,10 +126,6 @@ namespace CarRent.Migrations
                     b.HasKey("BookingId");
 
                     b.HasIndex("ActualReturnAddressId");
-
-                    b.HasIndex("CarId");
-
-                    b.HasIndex("ClientId");
 
                     b.HasIndex("ReceivingAddressId");
 
@@ -580,16 +572,6 @@ namespace CarRent.Migrations
                         .WithMany()
                         .HasForeignKey("ActualReturnAddressId");
 
-                    b.HasOne("CarRent.Models.Car", "Car")
-                        .WithMany("Bookings")
-                        .HasForeignKey("CarId");
-
-                    b.HasOne("CarRent.Models.Client", "Client")
-                        .WithMany("Bookings")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CarRent.Models.Address", "ReceivingAddress")
                         .WithMany()
                         .HasForeignKey("ReceivingAddressId")
@@ -603,10 +585,6 @@ namespace CarRent.Migrations
                         .IsRequired();
 
                     b.Navigation("ActualReturnAddress");
-
-                    b.Navigation("Car");
-
-                    b.Navigation("Client");
 
                     b.Navigation("ReceivingAddress");
 
@@ -753,8 +731,6 @@ namespace CarRent.Migrations
 
             modelBuilder.Entity("CarRent.Models.Car", b =>
                 {
-                    b.Navigation("Bookings");
-
                     b.Navigation("Owners");
 
                     b.Navigation("RoadAccidents");
@@ -772,8 +748,6 @@ namespace CarRent.Migrations
 
             modelBuilder.Entity("CarRent.Models.Client", b =>
                 {
-                    b.Navigation("Bookings");
-
                     b.Navigation("RoadAccidents");
                 });
 

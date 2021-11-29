@@ -4,6 +4,7 @@ using CarRent.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRent.Migrations
 {
     [DbContext(typeof(CarRentDBContext))]
-    partial class CarRentDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211128193857_AddOneToManyForClientBooking")]
+    partial class AddOneToManyForClientBooking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,9 +107,6 @@ namespace CarRent.Migrations
                         .HasColumnType("int")
                         .HasColumnName("actualReturnAddressId");
 
-                    b.Property<int?>("CarId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
@@ -130,8 +129,6 @@ namespace CarRent.Migrations
                     b.HasKey("BookingId");
 
                     b.HasIndex("ActualReturnAddressId");
-
-                    b.HasIndex("CarId");
 
                     b.HasIndex("ClientId");
 
@@ -580,10 +577,6 @@ namespace CarRent.Migrations
                         .WithMany()
                         .HasForeignKey("ActualReturnAddressId");
 
-                    b.HasOne("CarRent.Models.Car", "Car")
-                        .WithMany("Bookings")
-                        .HasForeignKey("CarId");
-
                     b.HasOne("CarRent.Models.Client", "Client")
                         .WithMany("Bookings")
                         .HasForeignKey("ClientId")
@@ -603,8 +596,6 @@ namespace CarRent.Migrations
                         .IsRequired();
 
                     b.Navigation("ActualReturnAddress");
-
-                    b.Navigation("Car");
 
                     b.Navigation("Client");
 
@@ -753,8 +744,6 @@ namespace CarRent.Migrations
 
             modelBuilder.Entity("CarRent.Models.Car", b =>
                 {
-                    b.Navigation("Bookings");
-
                     b.Navigation("Owners");
 
                     b.Navigation("RoadAccidents");

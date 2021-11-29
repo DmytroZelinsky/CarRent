@@ -8,11 +8,11 @@ namespace CarRent.Models
         public Client()
         {
             RoadAccidents = new HashSet<RoadAccident>();
+            Bookings = new HashSet<Booking>();
         }
 
         public int ClientId { get; set; }
         public int AddressId { get; set; }
-        public int BookingId { get; set; }
         public int ClientServiceId { get; set; }
         public int PaymentId { get; set; }
         public string FirstName { get; set; }
@@ -24,9 +24,9 @@ namespace CarRent.Models
         public string PhoneNumber { get; set; }
 
         public virtual Address Address { get; set; }
-        public virtual Booking Booking { get; set; }
         public virtual ClientService ClientService { get; set; }
         public virtual Payment Payment { get; set; }
         public virtual ICollection<RoadAccident> RoadAccidents { get; set; }
+        public virtual ICollection<Booking> Bookings { get; set; }
     }
 }

@@ -5,11 +5,6 @@ namespace CarRent.Models
 {
     public partial class Booking
     {
-        public Booking()
-        {
-            Clients = new HashSet<Client>();
-        }
-
         public int BookingId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -17,11 +12,13 @@ namespace CarRent.Models
         public int ReceivingAddressId { get; set; }
         public int ReturnAddressId { get; set; }
         public int? ActualReturnAddressId { get; set; }
+        public int ClientId { get; set; }
+        public int? CarId { get; set; }
 
-        public Address ReceivingAddress { get; set; }
-        public Address ReturnAddress { get; set; }
-        public Address ActualReturnAddress { get; set; }
-
-        public virtual ICollection<Client> Clients { get; set; }
+        public virtual Address ReceivingAddress { get; set; }
+        public virtual Address ReturnAddress { get; set; }
+        public virtual Address ActualReturnAddress { get; set; }
+        public virtual Client Client { get; set; } 
+        public virtual Car Car { get; set; }
     }
 }

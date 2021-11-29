@@ -247,8 +247,6 @@ namespace CarRent.Models
 
                 entity.Property(e => e.AddressId).HasColumnName("addressId");
 
-                entity.Property(e => e.BookingId).HasColumnName("bookingId");
-
                 entity.Property(e => e.ClientServiceId).HasColumnName("clientServiceId");
 
                 entity.Property(e => e.DateOfBirth)
@@ -295,12 +293,6 @@ namespace CarRent.Models
                     .HasForeignKey(d => d.AddressId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_client_address");
-
-                entity.HasOne(d => d.Booking)
-                    .WithMany(p => p.Clients)
-                    .HasForeignKey(d => d.BookingId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_client_booking");
 
                 entity.HasOne(d => d.ClientService)
                     .WithMany(p => p.Clients)

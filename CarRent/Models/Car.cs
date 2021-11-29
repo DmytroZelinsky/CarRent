@@ -10,6 +10,7 @@ namespace CarRent.Models
         {
             Owners = new HashSet<Owner>();
             RoadAccidents = new HashSet<RoadAccident>();
+            Bookings = new HashSet<Booking>();
         }
 
         public int CarId { get; set; }
@@ -29,5 +30,6 @@ namespace CarRent.Models
         public virtual CarService CarService { get; set; }
         public virtual ICollection<Owner> Owners { get; set; }
         public virtual ICollection<RoadAccident> RoadAccidents { get; set; }
+        public virtual ICollection<Booking> Bookings { get; set; }
     }
 }
