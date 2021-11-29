@@ -14,11 +14,13 @@ namespace CarRent.Models
         public int? ActualReturnAddressId { get; set; }
         public int ClientId { get; set; }
         public int? CarId { get; set; }
+        public int? ClientServiceId { get; set; }
 
         public virtual Address ReceivingAddress { get; set; }
         public virtual Address ReturnAddress { get; set; }
         public virtual Address ActualReturnAddress { get; set; }
         public virtual Client Client { get; set; } 
         public virtual Car Car { get; set; }
+        public virtual ClientService ClientService { get; set; }
     }
 }
