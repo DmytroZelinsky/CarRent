@@ -1,0 +1,17 @@
+﻿using CarRent.Models;
+using System;
+
+namespace CarRent.ViewModels
+{
+    public class BookingView
+    {
+        public int BookingId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+
+        public virtual Address ReceivingAddress { get; set; }
+        public virtual Address ReturnAddress { get; set; }
+        public virtual Client Client { get; set; }
+        public virtual Car Car { get; set; }
+    }
+}

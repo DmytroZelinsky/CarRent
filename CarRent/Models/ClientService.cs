@@ -15,7 +15,9 @@ namespace CarRent.Models
         public bool HasChildSeat { get; set; }
         public bool HasWiFi { get; set; }
         public bool HasDriver { get; set; }
-        public bool OneWay { get; set; }
+        public bool HasUnlimitedMileage { get; set; }
+        public bool HasVideoRecorder { get; set; }
+        public bool HasPhoneHolder { get; set; }
 
         public virtual ICollection<Client> Clients { get; set; }
         public virtual ICollection<Invoice> Invoices { get; set; }

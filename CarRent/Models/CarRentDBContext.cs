@@ -318,8 +318,6 @@ namespace CarRent.Models
                 entity.Property(e => e.HasDriver).HasColumnName("hasDriver");
 
                 entity.Property(e => e.HasWiFi).HasColumnName("hasWiFi");
-
-                entity.Property(e => e.OneWay).HasColumnName("oneWay");
             });
 
             modelBuilder.Entity<Invoice>(entity =>
