@@ -29,7 +29,7 @@ namespace CarRent.Services.Implementations
                 source => source
                 .Include(x => x.Address)
                 .Include(x => x.Cars)
-                    .ThenInclude(x => x.CarService));
+                    .ThenInclude(x => x.CarRentInfo));
         }
     }
 }

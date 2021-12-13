@@ -1,8 +1,8 @@
 ﻿namespace CarRent.ViewModels
 {
-    public class ClientServiceView
+    public class ClientAdditionView
     {
-        public int ClientServiceId { get; set; }
+        public int ClientAdditionId { get; set; }
         public bool HasChildSeat { get; set; }
         public bool HasWiFi { get; set; }
         public bool HasDriver { get; set; }

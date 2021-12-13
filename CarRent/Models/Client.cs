@@ -9,12 +9,10 @@ namespace CarRent.Models
         {
             RoadAccidents = new HashSet<RoadAccident>();
             Bookings = new HashSet<Booking>();
+            Cars = new HashSet<Car>();
         }
 
         public int ClientId { get; set; }
-        public int AddressId { get; set; }
-        public int ClientServiceId { get; set; }
-        public int PaymentId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
@@ -22,11 +20,12 @@ namespace CarRent.Models
         public string IdentificationCode { get; set; }
         public string LicenseCode { get; set; }
         public string PhoneNumber { get; set; }
+        public int AddressId { get; set; }
 
         public virtual Address Address { get; set; }
-        public virtual ClientService ClientService { get; set; }
-        public virtual Payment Payment { get; set; }
+
         public virtual ICollection<RoadAccident> RoadAccidents { get; set; }
         public virtual ICollection<Booking> Bookings { get; set; }
+        public virtual ICollection<Car> Cars { get; set; }
     }
 }

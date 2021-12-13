@@ -20,414 +20,263 @@ namespace CarRent.Models
         public virtual DbSet<AutoPark> AutoParks { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
         public virtual DbSet<Car> Cars { get; set; }
-        public virtual DbSet<CarClient> CarClients { get; set; }
         public virtual DbSet<CarInsurance> CarInsurances { get; set; }
-        public virtual DbSet<CarService> CarServices { get; set; }
+        public virtual DbSet<CarRentInfo> CarRentInfos { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
-        public virtual DbSet<ClientService> ClientServices { get; set; }
-        public virtual DbSet<Invoice> Invoices { get; set; }
+        public virtual DbSet<ClientAddition> ClientAdditions { get; set; }
+        public virtual DbSet<Billing> Billings { get; set; }
         public virtual DbSet<Owner> Owners { get; set; }
-        public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<RoadAccident> RoadAccidents { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-TNBSHA4;Initial Catalog=CarRentDB;User ID=Dmytro;Password=salman;");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Address>(entity =>
             {
-                entity.ToTable("address");
+                entity.ToTable("Address");
 
-                entity.Property(e => e.AddressId).HasColumnName("addressId");
+                entity.Property(e => e.AddressId).HasColumnName("AddressId");
 
                 entity.Property(e => e.AddressName)
                     .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("addressName")
-                    .IsFixedLength();
+                    .HasColumnName("AddressName");
 
-                entity.Property(e => e.AddressNumber).HasColumnName("addressNumber");
+                entity.Property(e => e.AddressNumber).HasColumnName("AddressNumber");
 
                 entity.Property(e => e.City)
                     .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("city")
-                    .HasDefaultValueSql("('Kek')")
-                    .IsFixedLength();
+                    .HasColumnName("City");
 
-                entity.Property(e => e.PostCode).HasColumnName("postCode");
+                entity.Property(e => e.PostCode).HasColumnName("PostCode");
             });
 
             modelBuilder.Entity<AutoPark>(entity =>
             {
-                entity.ToTable("autoPark");
+                entity.ToTable("AutoPark");
 
-                entity.Property(e => e.AutoParkId).HasColumnName("autoParkId");
+                entity.Property(e => e.AutoParkId).HasColumnName("AutoParkId");
 
-                entity.Property(e => e.AddressId).HasColumnName("addressId");
+                entity.Property(e => e.AddressId).HasColumnName("AddressId");
 
-                entity.Property(e => e.CurrentCarCount).HasColumnName("currentCarCount");
+                entity.Property(e => e.CurrentCarCount).HasColumnName("CurrentCarCount");
 
-                entity.Property(e => e.MaxCarCount).HasColumnName("maxCarCount");
+                entity.Property(e => e.MaxCarCount).HasColumnName("MaxCarCount");
 
-                entity.HasOne(d => d.Address)
-                    .WithMany(p => p.AutoParks)
-                    .HasForeignKey(d => d.AddressId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_autoPark_address");
             });
 
             modelBuilder.Entity<Booking>(entity =>
             {
-                entity.ToTable("booking");
+                entity.ToTable("Booking");
 
-                entity.Property(e => e.BookingId).HasColumnName("bookingId");
+                entity.Property(e => e.BookingId).HasColumnName("BookingId");
 
-                entity.Property(e => e.ActualEndDate).HasColumnName("actualEndDate");
+                entity.Property(e => e.ActualEndDate).HasColumnName("ActualEndDate");
 
-                entity.Property(e => e.ActualReturnAddressId).HasColumnName("actualReturnAddressId");
+                entity.Property(e => e.ActualReturnAddressId).HasColumnName("ActualReturnAddressId");
 
-                entity.Property(e => e.EndDate).HasColumnName("endDate");
+                entity.Property(e => e.EndDate).HasColumnName("EndDate");
 
-                entity.Property(e => e.ReceivingAddressId).HasColumnName("receivingAddressId");
+                entity.Property(e => e.ReceivingAddressId).HasColumnName("ReceivingAddressId");
 
-                entity.Property(e => e.ReturnAddressId).HasColumnName("returnAddressId");
+                entity.Property(e => e.ReturnAddressId).HasColumnName("ReturnAddressId");
 
-                entity.Property(e => e.StartDate).HasColumnName("startDate");
+                entity.Property(e => e.StartDate).HasColumnName("StartDate");
+
+                entity.Property(e => e.ClientId).HasColumnName("ClientId");
+
+                entity.Property(e => e.CarId).HasColumnName("CarId");
+
+                entity.Property(e => e.BillingId).HasColumnName("BillingId");
+               
+                entity.Property(e => e.ClientAdditionId).HasColumnName("ClientAdditionId");
             });
 
             modelBuilder.Entity<Car>(entity =>
             {
-                entity.ToTable("car");
+                entity.ToTable("Car");
 
-                entity.HasIndex(e => e.Brand, "NCLIX_brand");
+                entity.Property(e => e.CarId).HasColumnName("CarId");
 
-                entity.Property(e => e.CarId).HasColumnName("carId");
-
-                entity.Property(e => e.AutoParkId).HasColumnName("autoParkId");
+                entity.Property(e => e.AutoParkId).HasColumnName("AutoParkId");
 
                 entity.Property(e => e.Brand)
                     .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("brand")
-                    .IsFixedLength();
+                    .HasColumnName("Brand");
 
-                entity.Property(e => e.CarServiceId).HasColumnName("carServiceId");
+                entity.Property(e => e.DriveType).HasColumnName("DriveType");
 
-                entity.Property(e => e.DriveType)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("driveType")
-                    .IsFixedLength();
+                entity.Property(e => e.EngineVolume).HasColumnName("EngineVolume");
 
-                entity.Property(e => e.EngineVolume).HasColumnName("engineVolume");
+                entity.Property(e => e.FuelType).HasColumnName("FuelType");
 
-                entity.Property(e => e.FuelType)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("fuelType")
-                    .IsFixedLength();
-
-                entity.Property(e => e.Geerbox)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("geerbox")
-                    .IsFixedLength();
+                entity.Property(e => e.Geerbox).HasColumnName("Geerbox");
 
                 entity.Property(e => e.Type)
                     .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("type")
-                    .IsFixedLength();
+                    .HasColumnName("Type");
 
                 entity.Property(e => e.Vin)
                     .IsRequired()
-                    .HasMaxLength(20)
-                    .HasColumnName("vin")
-                    .IsFixedLength();
+                    .HasColumnName("Vin");
 
-                entity.HasOne(d => d.AutoPark)
-                    .WithMany(p => p.Cars)
-                    .HasForeignKey(d => d.AutoParkId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_car_autoPark");
+                entity.Property(e => e.Model)
+                    .IsRequired()
+                    .HasColumnName("Model");
 
-                entity.HasOne(d => d.CarService)
-                    .WithMany(p => p.Cars)
-                    .HasForeignKey(d => d.CarServiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_car_carService");
-            });
+                entity.Property(e => e.Class).HasColumnName("Class");
 
-            modelBuilder.Entity<CarClient>(entity =>
-            {
-                entity.HasNoKey();
+                entity.Property(e => e.OwnerId).HasColumnName("OwnerId");
 
-                entity.ToTable("car_client");
+                entity.Property(e => e.CarRentInfoId).HasColumnName("CarRentInfoId");
 
-                entity.Property(e => e.CarId).HasColumnName("carId");
 
-                entity.Property(e => e.ClientId).HasColumnName("clientId");
-
-                entity.HasOne(d => d.Car)
-                    .WithMany()
-                    .HasForeignKey(d => d.CarId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_car_owner_car");
-
-                entity.HasOne(d => d.Client)
-                    .WithMany()
-                    .HasForeignKey(d => d.ClientId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_car_client_client");
             });
 
             modelBuilder.Entity<CarInsurance>(entity =>
             {
-                entity.ToTable("carInsurance");
+                entity.ToTable("CarInsurance");
 
-                entity.Property(e => e.CarInsuranceId).HasColumnName("carInsuranceId");
+                entity.Property(e => e.CarInsuranceId).HasColumnName("CarInsuranceId");
 
-                entity.Property(e => e.EffectiveDate).HasColumnName("effectiveDate");
+                entity.Property(e => e.EffectiveDate).HasColumnName("EffectiveDate");
 
-                entity.Property(e => e.ExpirationDate).HasColumnName("expirationDate");
-
-                entity.Property(e => e.InsuranceCompanyAddressId).HasColumnName("insuranceCompanyAddressId");
+                entity.Property(e => e.ExpirationDate).HasColumnName("ExpirationDate");
 
                 entity.Property(e => e.InsuranceCompanyName)
                     .IsRequired()
-                    .HasMaxLength(50)
-                    .HasColumnName("insuranceCompanyName")
-                    .IsFixedLength();
+                    .HasColumnName("InsuranceCompanyName");
 
                 entity.Property(e => e.PolicyNumber)
                     .IsRequired()
-                    .HasMaxLength(15)
-                    .HasColumnName("policyNumber")
-                    .IsFixedLength();
+                    .HasColumnName("PolicyNumber");
+
+                entity.Property(e => e.CarRentInfoId).HasColumnName("CarRentInfoId");
+
             });
 
-            modelBuilder.Entity<CarService>(entity =>
+            modelBuilder.Entity<CarRentInfo>(entity =>
             {
-                entity.ToTable("carService");
+                entity.ToTable("CarRentInfo");
 
-                entity.Property(e => e.CarServiceId).HasColumnName("carServiceId");
+                entity.Property(e => e.CarRentInfoId).HasColumnName("CarRentInfoId");
 
-                entity.Property(e => e.CarInsuranceId).HasColumnName("carInsuranceId");
+                entity.Property(e => e.Deposit).HasColumnName("Deposit");
 
-                entity.Property(e => e.Deposit).HasColumnName("deposit");
+                entity.Property(e => e.DistanceLimit).HasColumnName("DistanceLimit");
 
-                entity.Property(e => e.DistanceLimit).HasColumnName("distanceLimit");
+                entity.Property(e => e.IsOccupied).HasColumnName("IsOccupied");
 
-                entity.Property(e => e.IsOccupied).HasColumnName("isOccupied");
+                entity.Property(e => e.PricePerDay).HasColumnName("PricePerDay");
 
-                entity.Property(e => e.PricePerDay).HasColumnName("pricePerDay");
+                entity.Property(e => e.CarId).HasColumnName("CarId");
 
-                entity.HasOne(d => d.CarInsurance)
-                    .WithMany(p => p.CarServices)
-                    .HasForeignKey(d => d.CarInsuranceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_carService_carInsurance");
             });
 
             modelBuilder.Entity<Client>(entity =>
             {
-                entity.ToTable("client");
+                entity.ToTable("Client");
 
-                entity.HasIndex(e => e.FirstName, "NCLIX_firstName");
+                entity.Property(e => e.ClientId).HasColumnName("ClientId");
 
-                entity.Property(e => e.ClientId).HasColumnName("clientId");
-
-                entity.Property(e => e.AddressId).HasColumnName("addressId");
-
-                entity.Property(e => e.ClientServiceId).HasColumnName("clientServiceId");
+                entity.Property(e => e.AddressId).HasColumnName("AddressId");
 
                 entity.Property(e => e.DateOfBirth)
                     .HasColumnType("date")
-                    .HasColumnName("dateOfBirth");
+                    .HasColumnName("DateOfBirth");
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("firstName")
-                    .IsFixedLength();
+                    .HasColumnName("FirstName");
 
                 entity.Property(e => e.IdentificationCode)
-                    .HasMaxLength(30)
-                    .HasColumnName("identificationCode")
-                    .IsFixedLength();
+                    .HasColumnName("IdentificationCode");
 
                 entity.Property(e => e.LastName)
                     .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("lastName")
-                    .IsFixedLength();
+                    .HasColumnName("LastName");
 
                 entity.Property(e => e.LicenseCode)
-                    .HasMaxLength(30)
-                    .HasColumnName("licenseCode")
-                    .IsFixedLength();
+                    .HasColumnName("LicenseCode");
 
                 entity.Property(e => e.PassportCode)
-                    .HasMaxLength(30)
-                    .HasColumnName("passportCode")
-                    .IsFixedLength();
-
-                entity.Property(e => e.PaymentId).HasColumnName("paymentId");
+                    .HasColumnName("PassportCode");
 
                 entity.Property(e => e.PhoneNumber)
                     .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("phoneNumber")
-                    .IsFixedLength();
-
-                entity.HasOne(d => d.Address)
-                    .WithMany(p => p.Clients)
-                    .HasForeignKey(d => d.AddressId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_client_address");
-
-                entity.HasOne(d => d.ClientService)
-                    .WithMany(p => p.Clients)
-                    .HasForeignKey(d => d.ClientServiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_client_service");
-
-                entity.HasOne(d => d.Payment)
-                    .WithMany(p => p.Clients)
-                    .HasForeignKey(d => d.PaymentId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_client_payment");
+                    .HasColumnName("PhoneNumber");
             });
 
-            modelBuilder.Entity<ClientService>(entity =>
+            modelBuilder.Entity<ClientAddition>(entity =>
             {
-                entity.ToTable("clientService");
+                entity.ToTable("ClientAddition");
 
-                entity.Property(e => e.ClientServiceId).HasColumnName("clientServiceId");
+                entity.Property(e => e.ClientAdditionId).HasColumnName("ClientAdditionId");
 
-                entity.Property(e => e.HasChildSeat).HasColumnName("hasChildSeat");
+                entity.Property(e => e.HasChildSeat).HasColumnName("HasChildSeat");
 
-                entity.Property(e => e.HasDriver).HasColumnName("hasDriver");
+                entity.Property(e => e.HasDriver).HasColumnName("HasDriver");
 
-                entity.Property(e => e.HasWiFi).HasColumnName("hasWiFi");
+                entity.Property(e => e.HasUnlimitedMileage).HasColumnName("HasUnlimitedMileage");
+
+                entity.Property(e => e.HasVideoRecorder).HasColumnName("HasVideoRecorder");
+
+                entity.Property(e => e.HasPhoneHolder).HasColumnName("HasPhoneHolder");
+
+                entity.Property(e => e.HasWiFi).HasColumnName("HasWiFi");
+
+                entity.Property(e => e.BookingId).HasColumnName("BookingId");
+
             });
 
-            modelBuilder.Entity<Invoice>(entity =>
+            modelBuilder.Entity<Billing>(entity =>
             {
-                entity.ToTable("invoice");
+                entity.ToTable("Billing");
 
-                entity.Property(e => e.InvoiceId).HasColumnName("invoiceId");
+                entity.Property(e => e.BillingId).HasColumnName("BillingId");
 
-                entity.Property(e => e.ClientServiceId).HasColumnName("clientServiceId");
+                entity.Property(e => e.Status).HasColumnName("Status");
 
-                entity.Property(e => e.InvioceStatus).HasColumnName("invioceStatus");
+                entity.Property(e => e.PaymentDate).HasColumnName("PaymentDate");
 
-                entity.Property(e => e.InvoiceAmount).HasColumnName("invoiceAmount");
+                entity.Property(e => e.Method).HasColumnName("Method");
 
-                entity.HasOne(d => d.ClientService)
-                    .WithMany(p => p.Invoices)
-                    .HasForeignKey(d => d.ClientServiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_invoice_service");
+                entity.Property(e => e.TotalAmount).HasColumnName("TotalAmount");
+
+                entity.Property(e => e.BookingId).HasColumnName("BookingId");
+
             });
 
             modelBuilder.Entity<Owner>(entity =>
             {
-                entity.ToTable("owner");
+                entity.ToTable("Owner");
 
-                entity.Property(e => e.OwnerId).HasColumnName("ownerId");
-
-                entity.Property(e => e.CarId).HasColumnName("carId");
+                entity.Property(e => e.OwnerId).HasColumnName("OwnerId");
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("firstName")
-                    .IsFixedLength();
+                    .HasColumnName("FirstName");
 
                 entity.Property(e => e.LastName)
                     .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("lastName")
-                    .IsFixedLength();
+                    .HasColumnName("LastName");
 
                 entity.Property(e => e.PhoneNumber)
                     .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("phoneNumber")
-                    .IsFixedLength();
-
-                entity.HasOne(d => d.Car)
-                    .WithMany(p => p.Owners)
-                    .HasForeignKey(d => d.CarId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_owner_car");
-            });
-
-            modelBuilder.Entity<Payment>(entity =>
-            {
-                entity.ToTable("payment");
-
-                entity.Property(e => e.PaymentId).HasColumnName("paymentId");
-
-                entity.Property(e => e.InvoiceId).HasColumnName("invoiceId");
-
-                entity.Property(e => e.PaymentAmount).HasColumnName("paymentAmount");
-
-                entity.Property(e => e.PaymentDate)
-                    .HasColumnType("datetime")
-                    .HasColumnName("paymentDate");
-
-                entity.Property(e => e.PaymentMethod)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("paymentMethod")
-                    .IsFixedLength();
-
-                entity.Property(e => e.PaymentStatus).HasColumnName("paymentStatus");
-
-                entity.HasOne(d => d.Invoice)
-                    .WithMany(p => p.Payments)
-                    .HasForeignKey(d => d.InvoiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_payment_invoice");
+                    .HasColumnName("PhoneNumber");
             });
 
             modelBuilder.Entity<RoadAccident>(entity =>
             {
-                entity.ToTable("roadAccident");
+                entity.ToTable("RoadAccident");
 
-                entity.Property(e => e.RoadAccidentId).HasColumnName("roadAccidentId");
+                entity.Property(e => e.RoadAccidentId).HasColumnName("RoadAccidentId");
 
-                entity.Property(e => e.CarId).HasColumnName("carId");
+                entity.Property(e => e.CarId).HasColumnName("CarId");
 
-                entity.Property(e => e.ClientId).HasColumnName("clientId");
+                entity.Property(e => e.ClientId).HasColumnName("ClientId");
 
                 entity.Property(e => e.ProtocolNumber)
                     .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("protocolNumber")
-                    .IsFixedLength();
-
-                entity.HasOne(d => d.Car)
-                    .WithMany(p => p.RoadAccidents)
-                    .HasForeignKey(d => d.CarId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_roadAccident_car");
-
-                entity.HasOne(d => d.Client)
-                    .WithMany(p => p.RoadAccidents)
-                    .HasForeignKey(d => d.ClientId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_roadAccident_client");
+                    .HasColumnName("ProtocolNumber");
             });
 
             OnModelCreatingPartial(modelBuilder);

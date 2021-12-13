@@ -4,6 +4,7 @@ using CarRent.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRent.Migrations
 {
     [DbContext(typeof(CarRentDBContext))]
-    partial class CarRentDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211212162416_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,43 +99,6 @@ namespace CarRent.Migrations
                     b.ToTable("AutoPark", (string)null);
                 });
 
-            modelBuilder.Entity("CarRent.Models.Billing", b =>
-                {
-                    b.Property<int>("BillingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("BillingId");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BillingId"), 1L, 1);
-
-                    b.Property<int>("BookingId")
-                        .HasColumnType("int")
-                        .HasColumnName("BookingId");
-
-                    b.Property<string>("Method")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Method");
-
-                    b.Property<DateTime?>("PaymentDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("PaymentDate");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
-                        .HasColumnName("Status");
-
-                    b.Property<int>("TotalAmount")
-                        .HasColumnType("int")
-                        .HasColumnName("TotalAmount");
-
-                    b.HasKey("BillingId");
-
-                    b.HasIndex("BookingId")
-                        .IsUnique();
-
-                    b.ToTable("Billing", (string)null);
-                });
-
             modelBuilder.Entity("CarRent.Models.Booking", b =>
                 {
                     b.Property<int>("BookingId")
@@ -151,10 +116,6 @@ namespace CarRent.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ActualReturnAddressId");
 
-                    b.Property<int>("BillingId")
-                        .HasColumnType("int")
-                        .HasColumnName("BillingId");
-
                     b.Property<int>("CarId")
                         .HasColumnType("int")
                         .HasColumnName("CarId");
@@ -169,6 +130,10 @@ namespace CarRent.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("EndDate");
+
+                    b.Property<int>("InvoiceId")
+                        .HasColumnType("int")
+                        .HasColumnName("InvoiceId");
 
                     b.Property<int>("ReceivingAddressId")
                         .HasColumnType("int")
@@ -437,6 +402,38 @@ namespace CarRent.Migrations
                     b.ToTable("ClientAddition", (string)null);
                 });
 
+            modelBuilder.Entity("CarRent.Models.Invoice", b =>
+                {
+                    b.Property<int>("InvoiceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("InvoiceId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InvoiceId"), 1L, 1);
+
+                    b.Property<int>("BookingId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InvioceStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("InvioceStatus");
+
+                    b.Property<int>("InvoiceAmount")
+                        .HasColumnType("int")
+                        .HasColumnName("InvoiceAmount");
+
+                    b.Property<int?>("PaymentId")
+                        .HasColumnType("int")
+                        .HasColumnName("PaymentId");
+
+                    b.HasKey("InvoiceId");
+
+                    b.HasIndex("BookingId")
+                        .IsUnique();
+
+                    b.ToTable("Invoice", (string)null);
+                });
+
             modelBuilder.Entity("CarRent.Models.Owner", b =>
                 {
                     b.Property<int>("OwnerId")
@@ -464,6 +461,44 @@ namespace CarRent.Migrations
                     b.HasKey("OwnerId");
 
                     b.ToTable("Owner", (string)null);
+                });
+
+            modelBuilder.Entity("CarRent.Models.Payment", b =>
+                {
+                    b.Property<int>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("PaymentId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"), 1L, 1);
+
+                    b.Property<int>("InvoiceId")
+                        .HasColumnType("int")
+                        .HasColumnName("InvoiceId");
+
+                    b.Property<int>("PaymentAmount")
+                        .HasColumnType("int")
+                        .HasColumnName("PaymentAmount");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime")
+                        .HasColumnName("PaymentDate");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("PaymentMethod");
+
+                    b.Property<int>("PaymentStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("PaymentStatus");
+
+                    b.HasKey("PaymentId");
+
+                    b.HasIndex("InvoiceId")
+                        .IsUnique();
+
+                    b.ToTable("Payment", (string)null);
                 });
 
             modelBuilder.Entity("CarRent.Models.RoadAccident", b =>
@@ -521,17 +556,6 @@ namespace CarRent.Migrations
                         .IsRequired();
 
                     b.Navigation("Address");
-                });
-
-            modelBuilder.Entity("CarRent.Models.Billing", b =>
-                {
-                    b.HasOne("CarRent.Models.Booking", "Booking")
-                        .WithOne("Billing")
-                        .HasForeignKey("CarRent.Models.Billing", "BookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Booking");
                 });
 
             modelBuilder.Entity("CarRent.Models.Booking", b =>
@@ -636,6 +660,28 @@ namespace CarRent.Migrations
                     b.Navigation("Booking");
                 });
 
+            modelBuilder.Entity("CarRent.Models.Invoice", b =>
+                {
+                    b.HasOne("CarRent.Models.Booking", "Booking")
+                        .WithOne("Invoice")
+                        .HasForeignKey("CarRent.Models.Invoice", "BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Booking");
+                });
+
+            modelBuilder.Entity("CarRent.Models.Payment", b =>
+                {
+                    b.HasOne("CarRent.Models.Invoice", "Invoice")
+                        .WithOne("Payment")
+                        .HasForeignKey("CarRent.Models.Payment", "InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Invoice");
+                });
+
             modelBuilder.Entity("CarRent.Models.RoadAccident", b =>
                 {
                     b.HasOne("CarRent.Models.Car", "Car")
@@ -669,9 +715,9 @@ namespace CarRent.Migrations
 
             modelBuilder.Entity("CarRent.Models.Booking", b =>
                 {
-                    b.Navigation("Billing");
-
                     b.Navigation("ClientAddition");
+
+                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("CarRent.Models.Car", b =>
@@ -688,6 +734,11 @@ namespace CarRent.Migrations
                     b.Navigation("Bookings");
 
                     b.Navigation("RoadAccidents");
+                });
+
+            modelBuilder.Entity("CarRent.Models.Invoice", b =>
+                {
+                    b.Navigation("Payment");
                 });
 
             modelBuilder.Entity("CarRent.Models.Owner", b =>

@@ -1,8 +1,8 @@
 ﻿namespace CarRent.ViewModels
 {
-    public class CarServiceView
+    public class CarRentInfoView
     {
-        public int CarServiceId { get; set; }
+        public int CarRentInfoId { get; set; }
         public int DistanceLimit { get; set; }
         public bool IsOccupied { get; set; }
         public int PricePerDay { get; set; }

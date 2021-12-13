@@ -2,7 +2,7 @@
 
 namespace CarRent.DTOs
 {
-    public class CarServiceDTO
+    public class CarRentInfoDTO
     {
         public int DistanceLimit { get; set; }
         public int PricePerDay { get; set; }

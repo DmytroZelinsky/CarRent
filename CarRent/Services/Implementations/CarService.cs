@@ -40,7 +40,7 @@ namespace CarRent.Services.Implementations
             return await _carRepo.GetAllAsync(include: source => source
             .Include(x => x.AutoPark)
                 .ThenInclude(x => x.Address)
-            .Include(x => x.CarService));
+            .Include(x => x.CarRentInfo));
         }
 
         public async Task<Car> GetCarByIdAsync(int id)

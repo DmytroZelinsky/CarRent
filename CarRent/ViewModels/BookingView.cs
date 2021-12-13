@@ -11,7 +11,10 @@ namespace CarRent.ViewModels
 
         public virtual Address ReceivingAddress { get; set; }
         public virtual Address ReturnAddress { get; set; }
+        public virtual Address ActualReturnAddress { get; set; }
         public virtual Client Client { get; set; }
         public virtual Car Car { get; set; }
+        public virtual Billing Billing { get; set; }
+        public virtual ClientAddition ClientAddition { get; set; }
     }
 }

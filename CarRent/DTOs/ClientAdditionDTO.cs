@@ -1,6 +1,6 @@
 ﻿namespace CarRent.DTOs
 {
-    public class ClientServiceDTO
+    public class ClientAdditionDTO
     {
         public bool HasChildSeat { get; set; }
         public bool HasWiFi { get; set; }
