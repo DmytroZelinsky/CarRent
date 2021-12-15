@@ -4,6 +4,7 @@ using CarRent.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRent.Migrations
 {
     [DbContext(typeof(CarRentDBContext))]
-    partial class CarRentDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211215151033_DroppedForeignKeyInClientAddition")]
+    partial class DroppedForeignKeyInClientAddition
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +23,6 @@ namespace CarRent.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("BookingClientOption", b =>
-                {
-                    b.Property<int>("BookingsBookingId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClientOptionsClientOptionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BookingsBookingId", "ClientOptionsClientOptionId");
-
-                    b.HasIndex("ClientOptionsClientOptionId");
-
-                    b.ToTable("BookingClientOption");
-                });
 
             modelBuilder.Entity("CarClient", b =>
                 {
@@ -405,30 +392,42 @@ namespace CarRent.Migrations
                     b.ToTable("Client", (string)null);
                 });
 
-            modelBuilder.Entity("CarRent.Models.ClientOption", b =>
+            modelBuilder.Entity("CarRent.Models.ClientAddition", b =>
                 {
-                    b.Property<int>("ClientOptionId")
+                    b.Property<int>("ClientAdditionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("ClientOptionId");
+                        .HasColumnName("ClientAdditionId");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClientOptionId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClientAdditionId"), 1L, 1);
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Description");
+                    b.Property<bool>("HasChildSeat")
+                        .HasColumnType("bit")
+                        .HasColumnName("HasChildSeat");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Name");
+                    b.Property<bool>("HasDriver")
+                        .HasColumnType("bit")
+                        .HasColumnName("HasDriver");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float")
-                        .HasColumnName("Price");
+                    b.Property<bool>("HasPhoneHolder")
+                        .HasColumnType("bit")
+                        .HasColumnName("HasPhoneHolder");
 
-                    b.HasKey("ClientOptionId");
+                    b.Property<bool>("HasUnlimitedMileage")
+                        .HasColumnType("bit")
+                        .HasColumnName("HasUnlimitedMileage");
 
-                    b.ToTable("ClientOption", (string)null);
+                    b.Property<bool>("HasVideoRecorder")
+                        .HasColumnType("bit")
+                        .HasColumnName("HasVideoRecorder");
+
+                    b.Property<bool>("HasWiFi")
+                        .HasColumnType("bit")
+                        .HasColumnName("HasWiFi");
+
+                    b.HasKey("ClientAdditionId");
+
+                    b.ToTable("ClientAddition", (string)null);
                 });
 
             modelBuilder.Entity("CarRent.Models.Owner", b =>
@@ -489,21 +488,6 @@ namespace CarRent.Migrations
                     b.HasIndex("ClientId");
 
                     b.ToTable("RoadAccident", (string)null);
-                });
-
-            modelBuilder.Entity("BookingClientOption", b =>
-                {
-                    b.HasOne("CarRent.Models.Booking", null)
-                        .WithMany()
-                        .HasForeignKey("BookingsBookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CarRent.Models.ClientOption", null)
-                        .WithMany()
-                        .HasForeignKey("ClientOptionsClientOptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("CarClient", b =>

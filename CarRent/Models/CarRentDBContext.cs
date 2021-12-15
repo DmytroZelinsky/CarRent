@@ -23,7 +23,7 @@ namespace CarRent.Models
         public virtual DbSet<CarInsurance> CarInsurances { get; set; }
         public virtual DbSet<CarRentInfo> CarRentInfos { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
-        public virtual DbSet<ClientAddition> ClientAdditions { get; set; }
+        public virtual DbSet<ClientOption> ClientOptions { get; set; }
         public virtual DbSet<Billing> Billings { get; set; }
         public virtual DbSet<Owner> Owners { get; set; }
         public virtual DbSet<RoadAccident> RoadAccidents { get; set; }
@@ -87,7 +87,6 @@ namespace CarRent.Models
 
                 entity.Property(e => e.BillingId).HasColumnName("BillingId");
                
-                entity.Property(e => e.ClientAdditionId).HasColumnName("ClientAdditionId");
             });
 
             modelBuilder.Entity<Car>(entity =>
@@ -205,25 +204,17 @@ namespace CarRent.Models
                     .HasColumnName("PhoneNumber");
             });
 
-            modelBuilder.Entity<ClientAddition>(entity =>
+            modelBuilder.Entity<ClientOption>(entity =>
             {
-                entity.ToTable("ClientAddition");
+                entity.ToTable("ClientOption");
 
-                entity.Property(e => e.ClientAdditionId).HasColumnName("ClientAdditionId");
+                entity.Property(e => e.ClientOptionId).HasColumnName("ClientOptionId");
 
-                entity.Property(e => e.HasChildSeat).HasColumnName("HasChildSeat");
+                entity.Property(e => e.Name).HasColumnName("Name");
 
-                entity.Property(e => e.HasDriver).HasColumnName("HasDriver");
+                entity.Property(e => e.Price).HasColumnName("Price");
 
-                entity.Property(e => e.HasUnlimitedMileage).HasColumnName("HasUnlimitedMileage");
-
-                entity.Property(e => e.HasVideoRecorder).HasColumnName("HasVideoRecorder");
-
-                entity.Property(e => e.HasPhoneHolder).HasColumnName("HasPhoneHolder");
-
-                entity.Property(e => e.HasWiFi).HasColumnName("HasWiFi");
-
-                entity.Property(e => e.BookingId).HasColumnName("BookingId");
+                entity.Property(e => e.Description).HasColumnName("Description");
 
             });
 

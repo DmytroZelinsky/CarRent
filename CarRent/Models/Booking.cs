@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CarRent.Models
 {
     public partial class Booking
     {
+        public Booking()
+        {
+            ClientOptions = new HashSet<ClientOption>();
+        }
         public int BookingId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -14,7 +19,6 @@ namespace CarRent.Models
         public int ClientId { get; set; }
         public int CarId { get; set; }
         public int BillingId { get; set; }
-        public int ClientAdditionId { get; set; }
 
         public virtual Address ReceivingAddress { get; set; }
         public virtual Address ReturnAddress { get; set; }
@@ -22,6 +26,7 @@ namespace CarRent.Models
         public virtual Client Client { get; set; }
         public virtual Car Car { get; set; }
         public virtual Billing Billing { get; set; }
-        public virtual ClientAddition ClientAddition { get; set; }
+
+        public virtual ICollection<ClientOption> ClientOptions { get; set; }
     }
 }

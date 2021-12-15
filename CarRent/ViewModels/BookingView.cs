@@ -1,5 +1,6 @@
 ﻿using CarRent.Models;
 using System;
+using System.Collections.Generic;
 
 namespace CarRent.ViewModels
 {
@@ -15,6 +16,5 @@ namespace CarRent.ViewModels
         public virtual Client Client { get; set; }
         public virtual Car Car { get; set; }
         public virtual Billing Billing { get; set; }
-        public virtual ClientAddition ClientAddition { get; set; }
     }
 }

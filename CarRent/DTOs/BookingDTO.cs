@@ -10,6 +10,5 @@ namespace CarRent.DTOs
         public int ReturnAddressId { get; set; }
         public int CarId { get; set; }  
         public int ClientId { get; set; }
-        public virtual ClientAdditionDTO ClientAddition { get; set; }
     }
 }
