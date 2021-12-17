@@ -121,6 +121,10 @@ namespace CarRent.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BillingId"), 1L, 1);
 
+                    b.Property<int>("BookingId")
+                        .HasColumnType("int")
+                        .HasColumnName("BookingId");
+
                     b.Property<string>("Method")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Method");
@@ -138,6 +142,9 @@ namespace CarRent.Migrations
                         .HasColumnName("TotalAmount");
 
                     b.HasKey("BillingId");
+
+                    b.HasIndex("BookingId")
+                        .IsUnique();
 
                     b.ToTable("Billing", (string)null);
                 });
@@ -190,8 +197,6 @@ namespace CarRent.Migrations
                     b.HasKey("BookingId");
 
                     b.HasIndex("ActualReturnAddressId");
-
-                    b.HasIndex("BillingId");
 
                     b.HasIndex("CarId");
 
@@ -269,8 +274,6 @@ namespace CarRent.Migrations
 
                     b.HasIndex("AutoParkId");
 
-                    b.HasIndex("CarRentInfoId");
-
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Car", (string)null);
@@ -323,6 +326,10 @@ namespace CarRent.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarRentInfoId"), 1L, 1);
 
+                    b.Property<int>("CarId")
+                        .HasColumnType("int")
+                        .HasColumnName("CarId");
+
                     b.Property<int>("Deposit")
                         .HasColumnType("int")
                         .HasColumnName("Deposit");
@@ -340,6 +347,9 @@ namespace CarRent.Migrations
                         .HasColumnName("PricePerDay");
 
                     b.HasKey("CarRentInfoId");
+
+                    b.HasIndex("CarId")
+                        .IsUnique();
 
                     b.ToTable("CarRentInfo", (string)null);
                 });
@@ -522,17 +532,22 @@ namespace CarRent.Migrations
                     b.Navigation("Address");
                 });
 
+            modelBuilder.Entity("CarRent.Models.Billing", b =>
+                {
+                    b.HasOne("CarRent.Models.Booking", "Booking")
+                        .WithOne("Billing")
+                        .HasForeignKey("CarRent.Models.Billing", "BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Booking");
+                });
+
             modelBuilder.Entity("CarRent.Models.Booking", b =>
                 {
                     b.HasOne("CarRent.Models.Address", "ActualReturnAddress")
                         .WithMany()
                         .HasForeignKey("ActualReturnAddressId");
-
-                    b.HasOne("CarRent.Models.Billing", "Billing")
-                        .WithMany()
-                        .HasForeignKey("BillingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.HasOne("CarRent.Models.Car", "Car")
                         .WithMany("Bookings")
@@ -560,8 +575,6 @@ namespace CarRent.Migrations
 
                     b.Navigation("ActualReturnAddress");
 
-                    b.Navigation("Billing");
-
                     b.Navigation("Car");
 
                     b.Navigation("Client");
@@ -579,19 +592,11 @@ namespace CarRent.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CarRent.Models.CarRentInfo", "CarRentInfo")
-                        .WithMany()
-                        .HasForeignKey("CarRentInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CarRent.Models.Owner", "Owner")
                         .WithMany("Cars")
                         .HasForeignKey("OwnerId");
 
                     b.Navigation("AutoPark");
-
-                    b.Navigation("CarRentInfo");
 
                     b.Navigation("Owner");
                 });
@@ -605,6 +610,17 @@ namespace CarRent.Migrations
                         .IsRequired();
 
                     b.Navigation("CarRentInfo");
+                });
+
+            modelBuilder.Entity("CarRent.Models.CarRentInfo", b =>
+                {
+                    b.HasOne("CarRent.Models.Car", "Car")
+                        .WithOne("CarRentInfo")
+                        .HasForeignKey("CarRent.Models.CarRentInfo", "CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
                 });
 
             modelBuilder.Entity("CarRent.Models.Client", b =>
@@ -649,9 +665,16 @@ namespace CarRent.Migrations
                     b.Navigation("Cars");
                 });
 
+            modelBuilder.Entity("CarRent.Models.Booking", b =>
+                {
+                    b.Navigation("Billing");
+                });
+
             modelBuilder.Entity("CarRent.Models.Car", b =>
                 {
                     b.Navigation("Bookings");
+
+                    b.Navigation("CarRentInfo");
 
                     b.Navigation("RoadAccidents");
                 });

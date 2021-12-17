@@ -165,6 +165,9 @@ namespace CarRent.Models
                 entity.Property(e => e.IsOccupied).HasColumnName("IsOccupied");
 
                 entity.Property(e => e.PricePerDay).HasColumnName("PricePerDay");
+
+                entity.Property(e => e.CarId).HasColumnName("CarId");
+
             });
 
             modelBuilder.Entity<Client>(entity =>
@@ -212,7 +215,7 @@ namespace CarRent.Models
                 entity.Property(e => e.Price).HasColumnName("Price");
 
                 entity.Property(e => e.Description).HasColumnName("Description");
-          
+
             });
 
             modelBuilder.Entity<Billing>(entity =>
@@ -228,6 +231,9 @@ namespace CarRent.Models
                 entity.Property(e => e.Method).HasColumnName("Method");
 
                 entity.Property(e => e.TotalAmount).HasColumnName("TotalAmount");
+
+                entity.Property(e => e.BookingId).HasColumnName("BookingId");
+
             });
 
             modelBuilder.Entity<Owner>(entity =>
