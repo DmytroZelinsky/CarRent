@@ -13,38 +13,37 @@ namespace CarRent.Controllers
     [ApiController]
     public class BookingController : ControllerBase
     {
-        private readonly IBookingService _bookingSerice;
+        private readonly IBookingService _bookingService;
         private readonly IMapper _mapper;
 
         public BookingController(IBookingService bookingService, IMapper mapper)
         {
-            _bookingSerice = bookingService;
+            _bookingService = bookingService;
             _mapper = mapper;
         }
 
-        [HttpGet("{clientId}",Name = "GetAllBookingsByClientId")]
-        public async Task<ActionResult<IEnumerable<BookingView>>> GetAllBookingsByClientId(int clientId)
-        {
-            var bookings = await _bookingSerice.GetBookingsByClientId(clientId);
-            var bookingsView = _mapper.Map<IEnumerable<BookingView>>(bookings);
-            return Ok(bookingsView);
-        }
+        //[HttpGet("{clientId}",Name = "GetAllBookingsByClientId")]
+        //public async Task<ActionResult<IEnumerable<BookingView>>> GetAllBookingsByClientId(int clientId)
+        //{
+        //    var bookings = await _bookingSerice.GetBookingsByClientId(clientId);
+        //    var bookingsView = _mapper.Map<IEnumerable<BookingView>>(bookings);
+        //    return Ok(bookingsView);
+        //}
 
         [HttpGet("{id}", Name = "GetBookingById")]
         public async Task<ActionResult<BookingView>> GetBookingById(int id)
         {
-            var booking = await _bookingSerice.GetBookingById(id);
+            var booking = await _bookingService.GetBookingById(id);
             var bookingView = _mapper.Map<BookingView>(booking);
-            return bookingView;
+            return Ok(bookingView);
         }
 
         [HttpPost]
         public async Task<ActionResult<BookingView>> CreateBooking(BookingDTO bookingDTO)
         {
-            var booking = _mapper.Map<Booking>(bookingDTO);
-            await _bookingSerice.CreateBooking(booking);
-            var bookingView = _mapper.Map<BookingView>(booking);
-            return CreatedAtRoute(nameof(GetBookingById), new { Id = booking.BookingId }, bookingView);
+            var booking = await _bookingService.CreateBooking(bookingDTO);
+            var bookingView = _mapper.Map<BookingView>(await _bookingService.GetBookingById(booking.BookingId));
+            return CreatedAtRoute(nameof(GetBookingById), new { Id = bookingView.BookingId }, bookingView);
         }
     }
 }

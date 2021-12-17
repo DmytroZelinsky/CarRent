@@ -2,7 +2,6 @@
 {
     public class CarRentInfoView
     {
-        public int CarRentInfoId { get; set; }
         public int DistanceLimit { get; set; }
         public bool IsOccupied { get; set; }
         public int PricePerDay { get; set; }

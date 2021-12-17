@@ -35,6 +35,7 @@ namespace CarRent
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ICarRepo, CarRepo>();
             services.AddScoped<IAutoParkRepo, AutoParkRepo>();
+            services.AddScoped<IClientOptionRepo, ClientOptionRepo>();
             services.AddScoped<IBookingRepo, BookingRepo>();
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<IAutoParkService, AutoParkService>();

@@ -17,6 +17,6 @@ namespace CarRent.ViewModels
         public virtual CarView Car { get; set; }
         //public virtual ClientView Client { get; set; }
         public virtual BillingView Billing { get; set; }
-
+        public virtual ICollection<ClientOptionView> ClientOptions { get; set; }
     }
 }

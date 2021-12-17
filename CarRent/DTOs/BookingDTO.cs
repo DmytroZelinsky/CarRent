@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CarRent.DTOs
 {
@@ -12,5 +13,7 @@ namespace CarRent.DTOs
         public int ClientId { get; set; }
 
         public BillingDTO Billing { get; set; }
+
+        public ICollection<int> ClientOptionIds { get; set; }
     }
 }
