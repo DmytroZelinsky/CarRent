@@ -85,8 +85,6 @@ namespace CarRent.Models
 
                 entity.Property(e => e.CarId).HasColumnName("CarId");
 
-                entity.Property(e => e.BillingId).HasColumnName("BillingId");
-               
             });
 
             modelBuilder.Entity<Car>(entity =>
@@ -125,9 +123,6 @@ namespace CarRent.Models
 
                 entity.Property(e => e.OwnerId).HasColumnName("OwnerId");
 
-                entity.Property(e => e.CarRentInfoId).HasColumnName("CarRentInfoId");
-
-
             });
 
             modelBuilder.Entity<CarInsurance>(entity =>
@@ -155,8 +150,6 @@ namespace CarRent.Models
             modelBuilder.Entity<CarRentInfo>(entity =>
             {
                 entity.ToTable("CarRentInfo");
-
-                entity.Property(e => e.CarRentInfoId).HasColumnName("CarRentInfoId");
 
                 entity.Property(e => e.Deposit).HasColumnName("Deposit");
 
@@ -219,7 +212,6 @@ namespace CarRent.Models
             {
                 entity.ToTable("Billing");
 
-                entity.Property(e => e.BillingId).HasColumnName("BillingId");
 
                 entity.Property(e => e.Status).HasColumnName("Status");
 

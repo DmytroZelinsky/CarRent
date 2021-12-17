@@ -4,6 +4,7 @@ using CarRent.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRent.Migrations
 {
     [DbContext(typeof(CarRentDBContext))]
-    partial class CarRentDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211217164645_RemovedRedundantColumns")]
+    partial class RemovedRedundantColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace CarRent.Migrations
 
                     b.HasIndex("ClientOptionsClientOptionId");
 
-                    b.ToTable("BookingClientOption", (string)null);
+                    b.ToTable("BookingClientOption");
                 });
 
             modelBuilder.Entity("CarClient", b =>
@@ -49,7 +51,7 @@ namespace CarRent.Migrations
 
                     b.HasIndex("ClientsClientId");
 
-                    b.ToTable("CarClient", (string)null);
+                    b.ToTable("CarClient");
                 });
 
             modelBuilder.Entity("CarRent.Models.Address", b =>

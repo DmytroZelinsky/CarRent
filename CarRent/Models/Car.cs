@@ -25,7 +25,6 @@ namespace CarRent.Models
         public Class Class { get; set; }
         public int AutoParkId { get; set; } 
         public int? OwnerId { get; set; }
-        public int CarRentInfoId { get; set; }
 
         public virtual AutoPark AutoPark { get; set; }
         public virtual Owner Owner { get; set; }

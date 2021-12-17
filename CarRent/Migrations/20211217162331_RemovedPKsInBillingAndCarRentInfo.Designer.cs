@@ -4,6 +4,7 @@ using CarRent.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRent.Migrations
 {
     [DbContext(typeof(CarRentDBContext))]
-    partial class CarRentDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211217162331_RemovedPKsInBillingAndCarRentInfo")]
+    partial class RemovedPKsInBillingAndCarRentInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace CarRent.Migrations
 
                     b.HasIndex("ClientOptionsClientOptionId");
 
-                    b.ToTable("BookingClientOption", (string)null);
+                    b.ToTable("BookingClientOption");
                 });
 
             modelBuilder.Entity("CarClient", b =>
@@ -49,7 +51,7 @@ namespace CarRent.Migrations
 
                     b.HasIndex("ClientsClientId");
 
-                    b.ToTable("CarClient", (string)null);
+                    b.ToTable("CarClient");
                 });
 
             modelBuilder.Entity("CarRent.Models.Address", b =>
@@ -114,9 +116,6 @@ namespace CarRent.Migrations
 
             modelBuilder.Entity("CarRent.Models.Billing", b =>
                 {
-                    b.Property<int>("BookingId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Method")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Method");
@@ -132,8 +131,6 @@ namespace CarRent.Migrations
                     b.Property<int>("TotalAmount")
                         .HasColumnType("int")
                         .HasColumnName("TotalAmount");
-
-                    b.HasKey("BookingId");
 
                     b.ToTable("Billing", (string)null);
                 });
@@ -269,9 +266,6 @@ namespace CarRent.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarInsuranceId"), 1L, 1);
 
-                    b.Property<int>("CarRentInfoId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("EffectiveDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("EffectiveDate");
@@ -292,16 +286,11 @@ namespace CarRent.Migrations
 
                     b.HasKey("CarInsuranceId");
 
-                    b.HasIndex("CarRentInfoId");
-
                     b.ToTable("CarInsurance", (string)null);
                 });
 
             modelBuilder.Entity("CarRent.Models.CarRentInfo", b =>
                 {
-                    b.Property<int>("CarId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Deposit")
                         .HasColumnType("int")
                         .HasColumnName("Deposit");
@@ -317,8 +306,6 @@ namespace CarRent.Migrations
                     b.Property<int>("PricePerDay")
                         .HasColumnType("int")
                         .HasColumnName("PricePerDay");
-
-                    b.HasKey("CarId");
 
                     b.ToTable("CarRentInfo", (string)null);
                 });
@@ -501,17 +488,6 @@ namespace CarRent.Migrations
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("CarRent.Models.Billing", b =>
-                {
-                    b.HasOne("CarRent.Models.Booking", "Booking")
-                        .WithOne("Billing")
-                        .HasForeignKey("CarRent.Models.Billing", "BookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Booking");
-                });
-
             modelBuilder.Entity("CarRent.Models.Booking", b =>
                 {
                     b.HasOne("CarRent.Models.Address", "ActualReturnAddress")
@@ -570,28 +546,6 @@ namespace CarRent.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("CarRent.Models.CarInsurance", b =>
-                {
-                    b.HasOne("CarRent.Models.CarRentInfo", "CarRentInfo")
-                        .WithMany()
-                        .HasForeignKey("CarRentInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CarRentInfo");
-                });
-
-            modelBuilder.Entity("CarRent.Models.CarRentInfo", b =>
-                {
-                    b.HasOne("CarRent.Models.Car", "Car")
-                        .WithOne("CarRentInfo")
-                        .HasForeignKey("CarRent.Models.CarRentInfo", "CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Car");
-                });
-
             modelBuilder.Entity("CarRent.Models.Client", b =>
                 {
                     b.HasOne("CarRent.Models.Address", "Address")
@@ -634,16 +588,9 @@ namespace CarRent.Migrations
                     b.Navigation("Cars");
                 });
 
-            modelBuilder.Entity("CarRent.Models.Booking", b =>
-                {
-                    b.Navigation("Billing");
-                });
-
             modelBuilder.Entity("CarRent.Models.Car", b =>
                 {
                     b.Navigation("Bookings");
-
-                    b.Navigation("CarRentInfo");
 
                     b.Navigation("RoadAccidents");
                 });

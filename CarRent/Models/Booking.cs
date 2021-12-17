@@ -18,7 +18,6 @@ namespace CarRent.Models
         public int? ActualReturnAddressId { get; set; }
         public int ClientId { get; set; }
         public int CarId { get; set; }
-        public int BillingId { get; set; }
 
         public virtual Address ReceivingAddress { get; set; }
         public virtual Address ReturnAddress { get; set; }
