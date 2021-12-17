@@ -9,14 +9,12 @@ namespace CarRent.ViewModels
         public int BookingId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public DateTime? ActualEndDate { get; set; }
 
-        public virtual AddressView ReceivingAddress { get; set; }
-        public virtual AddressView ReturnAddress { get; set; }
-        public virtual AddressView ActualReturnAddress { get; set; }
-        public virtual CarView Car { get; set; }
-        //public virtual ClientView Client { get; set; }
-        public virtual BillingView Billing { get; set; }
-
+        public virtual Address ReceivingAddress { get; set; }
+        public virtual Address ReturnAddress { get; set; }
+        public virtual Address ActualReturnAddress { get; set; }
+        public virtual Client Client { get; set; }
+        public virtual Car Car { get; set; }
+        public virtual Billing Billing { get; set; }
     }
 }
