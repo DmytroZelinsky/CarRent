@@ -13,7 +13,7 @@ namespace CarRent.Models
         public int BookingId { get; set; }
         public InvoiceStatus Status { get; set; }
         public DateTime? PaymentDate { get; set; }
-        public string Method { get; set; }
+        public PaymentMethod Method { get; set; }
         public int TotalAmount { get; set; }
 
         public virtual Booking Booking { get; set; }
