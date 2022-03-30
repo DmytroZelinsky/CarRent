@@ -1,22 +1,19 @@
 using CarRent.Models;
-using CarRent.Repositories.Interfaces;
 using CarRent.Repositories.Implementations;
-using CarRent.Services.Interfaces;
+using CarRent.Repositories.Interfaces;
 using CarRent.Services.Implementations;
+using CarRent.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace CarRent
 {
@@ -40,12 +37,23 @@ namespace CarRent
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<IAutoParkService, AutoParkService>();
             services.AddScoped<IBookingService, BookingService>();
+            services.AddScoped<IJwtService, JwtService>();
             services.AddDbContext<CarRentDBContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("CarRentConnection")));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CarRent", Version = "v1" });
             });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Key"]))
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +74,8 @@ namespace CarRent
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
