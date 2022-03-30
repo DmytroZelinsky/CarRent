@@ -256,6 +256,87 @@ namespace CarRent.Models
                     .HasColumnName("ProtocolNumber");
             });
 
+            modelBuilder.Entity<Address>().HasData(new Address()
+            {
+                AddressId = 1,
+                City = "City",
+                AddressName = "Address Name",
+                AddressNumber = 0,
+                PostCode = 0
+            });
+
+            modelBuilder.Entity<AutoPark>().HasData(new AutoPark()
+            {
+                AutoParkId = 1,
+                MaxCarCount = 10,
+                CurrentCarCount = 0,
+                AddressId = 1
+            });
+
+            modelBuilder.Entity<Car>().HasData(new Car()
+            {
+                CarId = 1,
+                Type = "Type",
+                EngineVolume = 1.0,
+                Geerbox = Enums.Geerbox.Automatic,
+                FuelType = Enums.FuelType.Petrol,
+                DriveType = Enums.DriveType.FWD,
+                Brand = "Brand",
+                Vin = "1234567890",
+                Model = "Model",
+                Class = Enums.Class.Middle,
+                AutoParkId = 1
+
+            });
+
+            modelBuilder.Entity<CarRentInfo>().HasData(new CarRentInfo()
+            {
+                CarId = 1,
+                DistanceLimit = 100,
+                IsOccupied = false,
+                PricePerDay = 20,
+                Deposit = 200
+            });
+
+            modelBuilder.Entity<ClientOption>().HasData(new List<ClientOption>()
+            {
+                new ClientOption()
+                {
+                    ClientOptionId = 1,
+                    Name = "WI-FI",
+                    Price = 20,
+                    Description = "Some WIFI"
+                },
+                new ClientOption()
+                {
+                    ClientOptionId = 2,
+                    Name = "Video recorder",
+                    Price = 15,
+                    Description = "Some recorder"
+                },
+                new ClientOption()
+                {
+                    ClientOptionId = 3,
+                    Name = "Child seat",
+                    Price = 15,
+                    Description = "Some child seat"
+                },
+                new ClientOption()
+                {
+                    ClientOptionId = 4,
+                    Name = "Unlimited mileage",
+                    Price = 30,
+                    Description = "Some mileage"
+                },
+                new ClientOption()
+                {
+                    ClientOptionId = 5,
+                    Name = "Phone holder with power charge",
+                    Price = 10,
+                    Description = "Some phone holder"
+                }
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 

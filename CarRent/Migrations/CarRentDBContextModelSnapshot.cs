@@ -34,7 +34,7 @@ namespace CarRent.Migrations
 
                     b.HasIndex("ClientOptionsClientOptionId");
 
-                    b.ToTable("BookingClientOption", (string)null);
+                    b.ToTable("BookingClientOption");
                 });
 
             modelBuilder.Entity("CarClient", b =>
@@ -49,7 +49,7 @@ namespace CarRent.Migrations
 
                     b.HasIndex("ClientsClientId");
 
-                    b.ToTable("CarClient", (string)null);
+                    b.ToTable("CarClient");
                 });
 
             modelBuilder.Entity("CarRent.Models.Address", b =>
@@ -82,6 +82,16 @@ namespace CarRent.Migrations
                     b.HasKey("AddressId");
 
                     b.ToTable("Address", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            AddressId = 1,
+                            AddressName = "Address Name",
+                            AddressNumber = 0,
+                            City = "City",
+                            PostCode = 0
+                        });
                 });
 
             modelBuilder.Entity("CarRent.Models.AutoPark", b =>
@@ -110,6 +120,15 @@ namespace CarRent.Migrations
                     b.HasIndex("AddressId");
 
                     b.ToTable("AutoPark", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            AutoParkId = 1,
+                            AddressId = 1,
+                            CurrentCarCount = 0,
+                            MaxCarCount = 10
+                        });
                 });
 
             modelBuilder.Entity("CarRent.Models.Billing", b =>
@@ -117,8 +136,8 @@ namespace CarRent.Migrations
                     b.Property<int>("BookingId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Method")
-                        .HasColumnType("nvarchar(max)")
+                    b.Property<int>("Method")
+                        .HasColumnType("int")
                         .HasColumnName("Method");
 
                     b.Property<DateTime?>("PaymentDate")
@@ -258,6 +277,22 @@ namespace CarRent.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Car", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            CarId = 1,
+                            AutoParkId = 1,
+                            Brand = "Brand",
+                            Class = 1,
+                            DriveType = 1,
+                            EngineVolume = 1.0,
+                            FuelType = 0,
+                            Geerbox = 0,
+                            Model = "Model",
+                            Type = "Type",
+                            Vin = "1234567890"
+                        });
                 });
 
             modelBuilder.Entity("CarRent.Models.CarInsurance", b =>
@@ -270,7 +305,8 @@ namespace CarRent.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarInsuranceId"), 1L, 1);
 
                     b.Property<int>("CarRentInfoId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("CarRentInfoId");
 
                     b.Property<DateTime>("EffectiveDate")
                         .HasColumnType("datetime2")
@@ -321,6 +357,16 @@ namespace CarRent.Migrations
                     b.HasKey("CarId");
 
                     b.ToTable("CarRentInfo", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            CarId = 1,
+                            Deposit = 200,
+                            DistanceLimit = 100,
+                            IsOccupied = false,
+                            PricePerDay = 20
+                        });
                 });
 
             modelBuilder.Entity("CarRent.Models.Client", b =>
@@ -398,6 +444,43 @@ namespace CarRent.Migrations
                     b.HasKey("ClientOptionId");
 
                     b.ToTable("ClientOption", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ClientOptionId = 1,
+                            Description = "Some WIFI",
+                            Name = "WI-FI",
+                            Price = 20.0
+                        },
+                        new
+                        {
+                            ClientOptionId = 2,
+                            Description = "Some recorder",
+                            Name = "Video recorder",
+                            Price = 15.0
+                        },
+                        new
+                        {
+                            ClientOptionId = 3,
+                            Description = "Some child seat",
+                            Name = "Child seat",
+                            Price = 15.0
+                        },
+                        new
+                        {
+                            ClientOptionId = 4,
+                            Description = "Some mileage",
+                            Name = "Unlimited mileage",
+                            Price = 30.0
+                        },
+                        new
+                        {
+                            ClientOptionId = 5,
+                            Description = "Some phone holder",
+                            Name = "Phone holder with power charge",
+                            Price = 10.0
+                        });
                 });
 
             modelBuilder.Entity("CarRent.Models.Owner", b =>
